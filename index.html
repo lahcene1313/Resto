@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #table-number {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        #menu {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .menu-card {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px;
+            width: calc(25% - 20px); /* 4 cardviews par ligne avec marge de 10px */
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        .menu-card img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            margin-bottom: 10px;
+            cursor: pointer; /* Curseur pointer pour indiquer que l'image est cliquable */
+        }
+
+        #cart {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            margin-top: auto; /* Placer le panier en bas */
+        }
+
+        .cart-item {
+            margin-bottom: 10px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0, 0, 0);
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+
+        .modal-content {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 800px;
+            max-height: 80vh;
+        }
+
+        .modal-content img {
+            width: 100%;
+            height: auto;
+        }
+
+        .close {
+            color: #fff;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Fonction pour extraire le numéro de la table à partir de l'URL
+            function getTableNumberFromUrl() {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get('table');
+            }
+
+            // Récupérer le numéro de la table
+            const tableNumber = getTableNumberFromUrl();
+
+            // Afficher le numéro de la table
+            const tableNumberElement = document.getElementById('table-number');
+            tableNumberElement.textContent = `Table N° ${tableNumber || 'Non spécifiée'}`;
+
+            // ... (le reste de votre code)
+
+            // Vous pouvez utiliser la variable `tableNumber` dans d'autres parties de votre code
+            // pour personnaliser le comportement en fonction du numéro de la table.
+
+            // Exemple : Ajouter le numéro de table au panier
+            if (tableNumber) {
+                cart.push({ name: 'Table', price: 0, quantity: 1, tableNumber: tableNumber });
+                updateCartDisplay();
+            }
+        });
+    </script>
+    <h1>Menu</h1>
+    <div id="menu"></div>
+    <div id="cart"></div>
+
+    <!-- Fenêtre modale -->
+    <div id="myModal" class="modal">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <img class="modal-content" id="imgModal" onclick="closeModal()">
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const menuItems = [
+                { name: 'Soupe de Lentilles', price: 450.00, image: 'https://d2sz1kgdtrlf1n.cloudfront.net/yelo_products/thumb-400-400-a0e4hdfaHawcm61653260469213-Soupe20de20lentille.jpg' },
+                { name: 'Houmous', price: 500.00, image: 'https://d2sz1kgdtrlf1n.cloudfront.net/yelo_products/thumb-400-400-fjtnngl5O5pc551653260551026-HOUMOUS.jpg' },
+                { name: 'Yogurtlu Patlican Salatasi', price: 500.00, image: 'https://d2sz1kgdtrlf1n.cloudfront.net/yelo_products/thumb-400-400-k66shqqdAlnqg21653260769589-Yogurtlu20Patlican20Salatasi.jpg' },
+                { name: 'Casbah Burger', price: 1300.00, image: 'https://d2sz1kgdtrlf1n.cloudfront.net/yelo_products/thumb-400-400-4xd19fxufbBxvJ1653261550498-Casbah20Burger20.jpg' },
+                { name: 'Casbah Cheese', price: 1350.00, image: 'https://d2sz1kgdtrlf1n.cloudfront.net/yelo_products/thumb-400-400-8meijueq12DdCM1653261537299-Casbah20Cheese.jpg' },
+            ];
+
+            const menuElement = document.getElementById('menu');
+            const cartElement = document.getElementById('cart');
+            const modal = document.getElementById('myModal');
+            const modalContent = document.getElementById('imgModal');
+            const cart = [];
+
+            menuItems.forEach(item => {
+                const menuItem = document.createElement('div');
+                menuItem.className = 'menu-card';
+                menuItem.innerHTML = `
+                    <h3>${item.name}</h3>
+                    <img src="${item.image}" alt="${item.name}" style="max-width: 100%;" onclick="openModal('${item.image}')">
+                    <p>Price: ${item.price.toFixed(2)} DA</p>
+                    <button onclick="addToCart('${item.name}', ${item.price})">Ajouter</button><br><br>
+                    <input type="number" id="${item.name}-quantity" value="1" min="1">
+                `;
+                menuElement.appendChild(menuItem);
+            });
+
+            window.addToCart = function (itemName, itemPrice) {
+                const quantityInput = document.getElementById(`${itemName}-quantity`);
+                const quantity = parseInt(quantityInput.value);
+
+                // Vérifier si l'article est déjà dans le panier
+                const existingItem = cart.find(item => item.name === itemName);
+
+                if (existingItem) {
+                    existingItem.quantity += quantity;
+                } else {
+                    cart.push({ name: itemName, price: itemPrice, quantity: quantity });
+                }
+
+                // Mettre à jour l'affichage du panier
+                updateCartDisplay();
+            };
+
+            window.increaseQuantity = function (itemName, itemPrice) {
+                const existingItem = cart.find(item => item.name === itemName);
+
+                if (existingItem) {
+                    existingItem.quantity += 1;
+                    updateCartDisplay();
+                }
+            };
+
+            window.decreaseQuantity = function (itemName, itemPrice) {
+                const existingItem = cart.find(item => item.name === itemName);
+
+                if (existingItem && existingItem.quantity > 1) {
+                    existingItem.quantity -= 1;
+                    updateCartDisplay();
+                }
+            };
+
+            window.removeItem = function (itemName) {
+                const itemIndex = cart.findIndex(item => item.name === itemName);
+
+                if (itemIndex !== -1) {
+                    cart.splice(itemIndex, 1);
+                    updateCartDisplay();
+                }
+            };
+
+            function updateCartDisplay() {
+                cartElement.innerHTML = '<h3>Panier</h3>';
+
+                cart.forEach(item => {
+                    const cartItem = document.createElement('div');
+                    const total = (item.price * item.quantity).toFixed(2);
+
+                    cartItem.className = 'cart-item';
+                    cartItem.innerHTML = `
+                        <p>${item.quantity} x ${item.name} - Total: ${total} DA</p>
+                        <button onclick="increaseQuantity('${item.name}', ${item.price})">+</button>
+                        <button onclick="decreaseQuantity('${item.name}', ${item.price})">-</button>
+                        <button onclick="removeItem('${item.name}')">Supprimer</button>
+                    `;
+                    cartElement.appendChild(cartItem);
+                });
+
+                // Calculer le prix total du panier
+                const totalPrice = cart.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
+
+                // Ajouter le prix total au panier
+                const totalElement = document.createElement('div');
+                totalElement.innerHTML = `<p>Total: ${totalPrice} DA</p>`;
+                cartElement.appendChild(totalElement);
+            }
+
+            function openModal(imageUrl) {
+                modal.style.display = 'block';
+                modalContent.src = imageUrl;
+            }
+
+            window.closeModal = function () {
+                modal.style.display = 'none';
+            };
+
+            modal.addEventListener('click', function (event) {
+                if (event.target === modal) {
+                    closeModal();
+                }
+            });
+
+            document.addEventListener('keyup', function (event) {
+                if (event.key === 'Escape') {
+                    closeModal();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

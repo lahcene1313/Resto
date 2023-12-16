@@ -114,14 +114,21 @@
         <h1>Restaurant Fritha</h1>
     </header>
 
-    <h2 id="table-number"></h2>
+    <div id="table-number">Table N° 7</div>
 
     <h2>Menu</h2>
     <div id="menu"></div>
     <div id="cart"></div>
 
+    <!-- Fenêtre modale -->
+    <div id="myModal" class="modal">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <img class="modal-content" id="imgModal" onclick="closeModal()">
+    </div>
 
-  
+    <footer>
+        <p>Copyright © 2023 *** Restaurant Fritha *** Tous droits réservés.</p>
+    </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -170,7 +177,7 @@
                 if (existingItem) {
                     existingItem.quantity += quantity;
                 } else {
-                    cart.push({ name: itemName, price: itemPrice, quantity: quantity });
+                    cart.push({ name: itemName, price: itemPrice, quantity: quantity, tableNumber: tableNumber });
                 }
 
                 updateCartDisplay();
@@ -204,7 +211,7 @@
             };
 
             function updateCartDisplay() {
-                cartElement.innerHTML = '<h3 id="table-number"></h3>';
+                cartElement.innerHTML = `<h3>Commande ${tableNumber ? 'Table ' + tableNumber : 'Non spécifiée'}</h3>`;
 
                 cart.forEach(item => {
                     const cartItem = document.createElement('div');
@@ -249,9 +256,5 @@
             });
         });
     </script>
-
-    <footer>
-        <p>Copyright © 2023 *** Restaurant Fritha *** Tous droits réservés.</p>
-    </footer>
 </body>
 </html>

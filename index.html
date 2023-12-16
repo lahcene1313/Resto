@@ -8,42 +8,52 @@
         body {
             display: flex;
             flex-direction: column;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #8c8c79;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
         }
 
         #table-number {
             font-size: 18px;
             margin-bottom: 10px;
+            text-align: center;
         }
 
         #menu {
             display: flex;
             flex-wrap: wrap;
-            justify-content: space-between;
-            width: 100%;
+            justify-content: space-around;
         }
 
         .menu-card {
             border: 1px solid #ccc;
             padding: 10px;
             margin: 10px;
-            width: calc(25% - 20px); /* 4 cardviews par ligne avec marge de 10px */
+            width: calc(50% - 20px); /* 2 cardviews par ligne avec marge de 10px */
             box-sizing: border-box;
             text-align: center;
         }
 
         .menu-card img {
             width: 100%;
-            height: 280px;
+            height: 180px; /* Ajustez la hauteur en fonction de vos besoins sur les téléphones */
             object-fit: cover;
             margin-bottom: 10px;
-            cursor: pointer; /* Curseur pointer pour indiquer que l'image est cliquable */
+            cursor: pointer;
         }
 
         #cart {
             width: 100%;
             padding: 10px;
             box-sizing: border-box;
-            margin-top: auto; /* Placer le panier en bas */
+            margin-top: auto;
         }
 
         .cart-item {
@@ -84,37 +94,29 @@
             font-size: 20px;
             cursor: pointer;
         }
+
+        footer {
+            background-color: #8c8c79;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .menu-card {
+                width: 100%; /* Pleine largeur sur les petits écrans */
+            }
+        }
     </style>
 </head>
 <body>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Fonction pour extraire le numéro de la table à partir de l'URL
-            function getTableNumberFromUrl() {
-                const urlParams = new URLSearchParams(window.location.search);
-                return urlParams.get('table');
-            }
+    <header>
+        <h1>Restaurant Fritha</h1>
+    </header>
 
-            // Récupérer le numéro de la table
-            const tableNumber = getTableNumberFromUrl();
+    <div id="table-number">Table N° 7</div>
 
-            // Afficher le numéro de la table
-            const tableNumberElement = document.getElementById('table-number');
-            tableNumberElement.textContent = `Table N° ${tableNumber || 'Non spécifiée'}`;
-
-            // ... (le reste de votre code)
-
-            // Vous pouvez utiliser la variable `tableNumber` dans d'autres parties de votre code
-            // pour personnaliser le comportement en fonction du numéro de la table.
-
-            // Exemple : Ajouter le numéro de table au panier
-            if (tableNumber) {
-                cart.push({ name: 'Table', price: 0, quantity: 1, tableNumber: tableNumber });
-                updateCartDisplay();
-            }
-        });
-    </script>
-    <h1>Menu</h1>
+    <h2>Menu</h2>
     <div id="menu"></div>
     <div id="cart"></div>
 
@@ -124,8 +126,21 @@
         <img class="modal-content" id="imgModal" onclick="closeModal()">
     </div>
 
+    <footer>
+        <p>Copyright © 2023 *** Restaurant Fritha *** Tous droits réservés.</p>
+    </footer>
+
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            function getTableNumberFromUrl() {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get('table');
+            }
+
+            const tableNumber = getTableNumberFromUrl();
+            const tableNumberElement = document.getElementById('table-number');
+            tableNumberElement.textContent = `Table N° ${tableNumber || 'Non spécifiée'}`;
+
             const menuItems = [
                 { name: 'Soupe de Lentilles', price: 450.00, image: 'https://d2sz1kgdtrlf1n.cloudfront.net/yelo_products/thumb-400-400-a0e4hdfaHawcm61653260469213-Soupe20de20lentille.jpg' },
                 { name: 'Houmous', price: 500.00, image: 'https://d2sz1kgdtrlf1n.cloudfront.net/yelo_products/thumb-400-400-fjtnngl5O5pc551653260551026-HOUMOUS.jpg' },
@@ -145,19 +160,18 @@
                 menuItem.className = 'menu-card';
                 menuItem.innerHTML = `
                     <h3>${item.name}</h3>
-                    <img src="${item.image}" alt="${item.name}" style="max-width: 100%;" onclick="openModal('${item.image}')">
+                    <img src="${item.image}" alt="${item.name}" onclick="openModal('${item.image}')">
                     <p>Price: ${item.price.toFixed(2)} DA</p>
                     <button onclick="addToCart('${item.name}', ${item.price})">Ajouter</button><br><br>
-                    <input type="number" id="${item.name}-quantity" value="1" min="1">
+                    <input type="number" value="1" min="1">
                 `;
                 menuElement.appendChild(menuItem);
             });
 
             window.addToCart = function (itemName, itemPrice) {
-                const quantityInput = document.getElementById(`${itemName}-quantity`);
+                const quantityInput = event.target.parentNode.querySelector('input[type="number"]');
                 const quantity = parseInt(quantityInput.value);
 
-                // Vérifier si l'article est déjà dans le panier
                 const existingItem = cart.find(item => item.name === itemName);
 
                 if (existingItem) {
@@ -166,11 +180,10 @@
                     cart.push({ name: itemName, price: itemPrice, quantity: quantity });
                 }
 
-                // Mettre à jour l'affichage du panier
                 updateCartDisplay();
             };
 
-            window.increaseQuantity = function (itemName, itemPrice) {
+            window.increaseQuantity = function (itemName) {
                 const existingItem = cart.find(item => item.name === itemName);
 
                 if (existingItem) {
@@ -179,7 +192,7 @@
                 }
             };
 
-            window.decreaseQuantity = function (itemName, itemPrice) {
+            window.decreaseQuantity = function (itemName) {
                 const existingItem = cart.find(item => item.name === itemName);
 
                 if (existingItem && existingItem.quantity > 1) {
@@ -207,17 +220,15 @@
                     cartItem.className = 'cart-item';
                     cartItem.innerHTML = `
                         <p>${item.quantity} x ${item.name} - Total: ${total} DA</p>
-                        <button onclick="increaseQuantity('${item.name}', ${item.price})">+</button>
-                        <button onclick="decreaseQuantity('${item.name}', ${item.price})">-</button>
+                        <button onclick="increaseQuantity('${item.name}')">+</button>
+                        <button onclick="decreaseQuantity('${item.name}')">-</button>
                         <button onclick="removeItem('${item.name}')">Supprimer</button>
                     `;
                     cartElement.appendChild(cartItem);
                 });
 
-                // Calculer le prix total du panier
                 const totalPrice = cart.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
 
-                // Ajouter le prix total au panier
                 const totalElement = document.createElement('div');
                 totalElement.innerHTML = `<p>Total: ${totalPrice} DA</p>`;
                 cartElement.appendChild(totalElement);
@@ -245,5 +256,9 @@
             });
         });
     </script>
+
+    <footer>
+        <p>Copyright © 2023 *** Restaurant Fritha *** Tous droits réservés.</p>
+    </footer>
 </body>
 </html>

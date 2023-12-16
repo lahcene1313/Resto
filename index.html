@@ -114,21 +114,14 @@
         <h1>Restaurant Fritha</h1>
     </header>
 
-    <div id="table-number">Table N° 7</div>
+    <h2 id="table-number"></h2>
 
     <h2>Menu</h2>
     <div id="menu"></div>
     <div id="cart"></div>
 
-    <!-- Fenêtre modale -->
-    <div id="myModal" class="modal">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <img class="modal-content" id="imgModal" onclick="closeModal()">
-    </div>
 
-    <footer>
-        <p>Copyright © 2023 *** Restaurant Fritha *** Tous droits réservés.</p>
-    </footer>
+  
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -211,7 +204,7 @@
             };
 
             function updateCartDisplay() {
-                cartElement.innerHTML = '<h3>Panier</h3>';
+                cartElement.innerHTML = '<h3 id="table-number"></h3>';
 
                 cart.forEach(item => {
                     const cartItem = document.createElement('div');

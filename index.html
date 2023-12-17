@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<!-- Ajoutez ce lien CDN dans la section head de votre HTML -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <title>Menu</title>
     <style>
         body {
@@ -39,14 +37,14 @@
             border: 1px solid #ccc;
             padding: 10px;
             margin: 10px;
-            width: calc(50% - 20px); /* 2 cardviews par ligne avec marge de 10px */
+            width: calc(50% - 20px);
             box-sizing: border-box;
             text-align: center;
         }
 
         .menu-card img {
             width: 100%;
-            height: 400px; /* Ajustez la hauteur en fonction de vos besoins sur les téléphones */
+            height: 400px;
             object-fit: cover;
             margin-bottom: 10px;
             cursor: pointer;
@@ -72,7 +70,7 @@
 
         @media (max-width: 768px) {
             .menu-card {
-                width: 100%; /* Pleine largeur sur les petits écrans */
+                width: 100%;
             }
         }
 
@@ -83,9 +81,10 @@
             color: white;
             cursor: pointer;
         }
-		input {
-    display: none;
-}
+
+        input {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -99,12 +98,7 @@
     <div id="menu"></div>
     <div id="cart"></div>
 
-  
-	
-   
-
-   
-	<button id="submit-order-btn" onclick="submitOrder()">Passer la commande</button>
+    <button id="submit-order-btn" onclick="submitOrder()">Passer la commande</button>
 
     <footer>
         <p>Copyright © 2023 *** Restaurant Fritha *** Tous droits réservés.</p>
@@ -148,31 +142,29 @@
                 menuElement.appendChild(menuItem);
             });
 
-           window.addToCart = function (itemName, itemPrice) {
-    const quantityInput = event.target.parentNode.querySelector('input[type="number"]');
-    const quantity = parseInt(quantityInput.value);
+            window.addToCart = function (itemName, itemPrice) {
+                const quantityInput = event.target.parentNode.querySelector('input[type="number"]');
+                const quantity = parseInt(quantityInput.value);
 
-    const existingItem = cart.find(item => item.name === itemName);
+                const existingItem = cart.find(item => item.name === itemName);
 
-    if (existingItem) {
-        existingItem.quantity += quantity;
-    } else {
-        cart.push({ name: itemName, price: itemPrice, quantity: quantity, tableNumber: tableNumber });
-    }
+                if (existingItem) {
+                    existingItem.quantity += quantity;
+                } else {
+                    cart.push({ name: itemName, price: itemPrice, quantity: quantity, tableNumber: tableNumber });
+                }
 
-    updateCartDisplay();
+                updateCartDisplay();
 
-    // Utilisez SweetAlert2 pour afficher le message personnalisé
-    Swal.fire({
-        icon: 'success',
-        title: 'Plat ajouté à votre commande avec succès !',
-        showConfirmButton: true,
-        // Fermer automatiquement après 3 seconde
-    });
-};
-
-			
-			
+                // Utilisez SweetAlert2 pour afficher le message personnalisé
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Plat ajouté à votre commande avec succès !',
+                    showConfirmButton: true,
+                    // Fermer automatiquement après 3 secondes
+                    timer: 3000,
+                });
+            };
 
             window.increaseQuantity = function (itemName) {
                 const existingItem = cart.find(item => item.name === itemName);
@@ -225,20 +217,7 @@
                 cartElement.appendChild(totalElement);
             }
 
-            function openModal(imageUrl) {
-                modal.style.display = 'block';
-                modalContent.src = imageUrl;
-            }
 
-            window.closeModal = function () {
-                modal.style.display = 'none';
-            };
-
-            modal.addEventListener('click', function (event) {
-                if (event.target === modal) {
-                    closeModal();
-                }
-            });
 
             document.addEventListener('keyup', function (event) {
                 if (event.key === 'Escape') {
@@ -261,13 +240,41 @@
             };
 
             window.submitOrder = function () {
-                // Récupérez les données du panier et transmettez-les à une autre page
+                // Récupérez les données du panier
                 const cartData = JSON.stringify(cart);
-                window.location.href = `Commande.html?table=${tableNumber}&cart=${encodeURIComponent(cartData)}`;
-				
-				
-         
-                // Vous pouvez remplacer l'alerte par la redirection vers une autre page
+
+                // Envoi des données à Google Sheets via le script
+                const googleSheetsScriptUrl = 'https://script.google.com/macros/s/AKfycbw3SCqRca3eF25etn0TBp46Nb-IBtHwjHztHRjhX7x3q26bzGgxdywUE1WwidEKMqBg/exec';
+
+                fetch(googleSheetsScriptUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: cartData,
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Affichez une alerte de succès ou utilisez SweetAlert2
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Commande passée avec succès !',
+                        showConfirmButton: true,
+                    });
+
+                    // Vous pouvez ajouter d'autres actions après la commande ici.
+                })
+                .catch(error => {
+                    console.error('Erreur lors de la commande :', error);
+
+                    // Affichez une alerte d'erreur ou utilisez SweetAlert2
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Erreur lors de la commande',
+                        text: 'Veuillez réessayer plus tard.',
+                        showConfirmButton: true,
+                    });
+                });
             };
         });
     </script>

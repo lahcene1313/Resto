@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Fritha</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <style>
+        /* ... (Votre style CSS ici) */
+        .card {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <h1>Restaurant Fritha</h1>
+</header>
+
+<center>
+    <script>
+        // Récupérer le numéro de table à partir de l'URL
+        var tableNumber = window.location.search.split('=')[1];
+
+        // Afficher le message de bienvenue
+        document.write("<h1>Commande de la Table " + tableNumber + "</h1>");
+
+        // Récupérer les commandes de la table depuis le stockage local
+        var orders = JSON.parse(localStorage.getItem('orders')) || {};
+
+        // Afficher les commandes de la table sous forme de cartes
+        var tableOrders = orders[tableNumber] || [];
+        tableOrders.forEach(function(order, index) {
+            displayOrderCard(order, index);
+        });
+
+        function displayOrderCard(order, index) {
+            var card = document.createElement('div');
+            card.className = 'card';
+            card.innerHTML = `
+                <p>Commande ${index + 1}</p>
+                <!-- Afficher d'autres détails de la commande ici -->
+            `;
+            document.body.appendChild(card);
+        }
+    </script>
+</center>
+
+<footer class="footer">
+    <center>
+        <p>Copyright © 2023 *** Restaurant Fritha *** Tous droits réservés.</p>
+    </center>
+</footer>
+
+</body>
+</html>

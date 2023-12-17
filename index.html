@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- Ajoutez ce lien CDN dans la section head de votre HTML -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
     <title>Menu</title>
     <style>
         body {
@@ -142,21 +145,31 @@
                 menuElement.appendChild(menuItem);
             });
 
-            window.addToCart = function (itemName, itemPrice) {
-                const quantityInput = event.target.parentNode.querySelector('input[type="number"]');
-                const quantity = parseInt(quantityInput.value);
+           window.addToCart = function (itemName, itemPrice) {
+    const quantityInput = event.target.parentNode.querySelector('input[type="number"]');
+    const quantity = parseInt(quantityInput.value);
 
-                const existingItem = cart.find(item => item.name === itemName);
+    const existingItem = cart.find(item => item.name === itemName);
 
-                if (existingItem) {
-                    existingItem.quantity += quantity;
-                } else {
-                    cart.push({ name: itemName, price: itemPrice, quantity: quantity, tableNumber: tableNumber });
-                }
+    if (existingItem) {
+        existingItem.quantity += quantity;
+    } else {
+        cart.push({ name: itemName, price: itemPrice, quantity: quantity, tableNumber: tableNumber });
+    }
 
-                updateCartDisplay();
-                alert('Article ajouté au panier avec succès!');
-            };
+    updateCartDisplay();
+
+    // Utilisez SweetAlert2 pour afficher le message personnalisé
+    Swal.fire({
+        icon: 'success',
+        title: 'Article ajouté au panier avec succès !',
+        showConfirmButton: false,
+        timer: 2500, // Fermer automatiquement après 1,5 seconde
+    });
+};
+
+			
+			
 
             window.increaseQuantity = function (itemName) {
                 const existingItem = cart.find(item => item.name === itemName);

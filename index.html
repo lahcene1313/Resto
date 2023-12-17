@@ -46,7 +46,7 @@
 
         .menu-card img {
             width: 100%;
-            height: 180px; /* Ajustez la hauteur en fonction de vos besoins sur les téléphones */
+            height: 400px; /* Ajustez la hauteur en fonction de vos besoins sur les téléphones */
             object-fit: cover;
             margin-bottom: 10px;
             cursor: pointer;
@@ -83,6 +83,9 @@
             color: white;
             cursor: pointer;
         }
+		input {
+    display: none;
+}
     </style>
 </head>
 <body>
@@ -163,8 +166,8 @@
     Swal.fire({
         icon: 'success',
         title: 'Plat ajouté à votre commande avec succès !',
-        showConfirmButton: false,
-        timer: 3000, // Fermer automatiquement après 3 seconde
+        showConfirmButton: true,
+        // Fermer automatiquement après 3 seconde
     });
 };
 

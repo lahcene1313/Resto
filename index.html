@@ -244,18 +244,10 @@
                 closeModal();
             };
 
-          
-				
-				
-				window.submitOrder = function () {
-    // Récupérez les données du panier et transmettez-les à la page Commande.html
-    const cartData = JSON.stringify(cart);
-    window.location.href = Commande.html?table=${tableNumber}&cart=${encodeURIComponent(cartData)}`;
-};
-
-				
-				
-				
+            window.submitOrder = function () {
+                // Récupérez les données du panier et transmettez-les à une autre page
+                const cartData = JSON.stringify(cart);
+                window.location.href = `Commande.html?table=${tableNumber}&cart=${encodeURIComponent(cartData)}`;
 				
 				
          

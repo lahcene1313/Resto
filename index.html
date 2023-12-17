@@ -60,41 +60,6 @@
             margin-bottom: 10px;
         }
 
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgb(0, 0, 0);
-            background-color: rgba(0, 0, 0, 0.9);
-        }
-
-        .modal-content {
-            margin: auto;
-            display: block;
-            width: 80%;
-            max-width: 800px;
-            max-height: 80vh;
-        }
-
-        .modal-content img {
-            width: 100%;
-            height: auto;
-        }
-
-        .close {
-            color: #fff;
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 20px;
-            cursor: pointer;
-        }
-
         footer {
             background-color: #8c8c79;
             color: #fff;
@@ -106,6 +71,14 @@
             .menu-card {
                 width: 100%; /* Pleine largeur sur les petits écrans */
             }
+        }
+
+        #submit-order-btn {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #4caf50;
+            color: white;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -120,11 +93,12 @@
     <div id="menu"></div>
     <div id="cart"></div>
 
-    <!-- Fenêtre modale -->
-    <div id="myModal" class="modal">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <img class="modal-content" id="imgModal" onclick="closeModal()">
-    </div>
+  
+	
+   
+
+   
+	<button id="submit-order-btn" onclick="submitOrder()">Passer la commande</button>
 
     <footer>
         <p>Copyright © 2023 *** Restaurant Fritha *** Tous droits réservés.</p>
@@ -181,6 +155,7 @@
                 }
 
                 updateCartDisplay();
+                alert('Article ajouté au panier avec succès!');
             };
 
             window.increaseQuantity = function (itemName) {
@@ -254,6 +229,38 @@
                     closeModal();
                 }
             });
+
+            window.confirmAddToCart = function () {
+                // Ajoutez ici le code pour ajouter l'article au panier
+                addToCart(itemName, itemPrice);
+
+                // Fermez la fenêtre modale
+                closeModal();
+            };
+
+            window.cancelAddToCart = function () {
+                // Annulez l'ajout à la commande, par exemple, ne faites rien ici
+                // Fermez la fenêtre modale
+                closeModal();
+            };
+
+          
+				
+				
+				window.submitOrder = function () {
+    // Récupérez les données du panier et transmettez-les à la page Commande.html
+    const cartData = JSON.stringify(cart);
+    window.location.href = `https://lahcene1313.github.io/Resto/Commande.html?table=${tableNumber}&cart=${encodeURIComponent(cartData)}`;
+};
+
+				
+				
+				
+				
+				
+         
+                // Vous pouvez remplacer l'alerte par la redirection vers une autre page
+            };
         });
     </script>
 </body>

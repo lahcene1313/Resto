@@ -85,6 +85,15 @@
         input {
             display: none;
         }
+		 #submit-order-btn {
+            font-size: 20px; /* Ajustez la taille de la police selon vos besoins */
+            font-weight: bold;
+        }
+		
+
+		
+		
+		
     </style>
 </head>
 <body>
@@ -99,6 +108,12 @@
     <div id="cart"></div>
 
     <button id="submit-order-btn" onclick="submitOrder()">Passer la commande</button>
+	
+	
+	<!-- Ajoutez cette div comme destination -->
+<div id="order-summary"></div>
+
+	
 
     <footer>
         <p>Copyright © 2023 *** Restaurant Fritha *** Tous droits réservés.</p>
@@ -202,7 +217,7 @@
 
                     cartItem.className = 'cart-item';
                     cartItem.innerHTML = `
-                        <p>${item.quantity} x ${item.name} - Total: ${total} DA</p>
+                        <p>${item.quantity} x ${item.name} - Total: ${total} DA<p>
                         <button onclick="increaseQuantity('${item.name}')">+</button>
                         <button onclick="decreaseQuantity('${item.name}')">-</button>
                         <button onclick="removeItem('${item.name}')">Supprimer</button>
@@ -213,7 +228,7 @@
                 const totalPrice = cart.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
 
                 const totalElement = document.createElement('div');
-                totalElement.innerHTML = `<p>Total: ${totalPrice} DA</p>`;
+                totalElement.innerHTML = `<h4>Total: ${totalPrice} DA</h4>`;
                 cartElement.appendChild(totalElement);
             }
 
@@ -239,44 +254,101 @@
                 closeModal();
             };
 
-            window.submitOrder = function () {
-                // Récupérez les données du panier
-                const cartData = JSON.stringify(cart);
-
-                // Envoi des données à Google Sheets via le script
-                const googleSheetsScriptUrl = 'https://script.google.com/macros/s/AKfycbx7Uob4PltWReerQHIW3ziFpNLECJqd8ceBWIdWnOV4hGHLaq7eP6j4dKvoJ3XS9CqH/exec';
-
-                fetch(googleSheetsScriptUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: cartData,
-                })
-                .then(response => response.json())
-                .then(data => {
-                    // Affichez une alerte de succès ou utilisez SweetAlert2
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Commande passée avec succès !',
-                        showConfirmButton: true,
-                    });
-
-                    // Vous pouvez ajouter d'autres actions après la commande ici.
-                })
-                .catch(error => {
-                    console.error('Erreur lors de la commande :', error);
-
-                    // Affichez une alerte d'erreur ou utilisez SweetAlert2
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Erreur lors de la commande',
-                        text: 'Veuillez réessayer plus tard.',
-                        showConfirmButton: true,
-                    });
-                });
-            };
         });
+
+
+
+// Déclaration de cartElement au niveau global
+const cartElement = document.getElementById('cart');
+
+document.addEventListener('DOMContentLoaded', function () {
+   
+   
+    
+    window.submitOrder = function () {
+        // Récupérez les données du panier
+        const cartData = JSON.stringify(cart);
+
+        // Mise à jour de la div order-summary avec le contenu du panier
+        const orderSummaryDiv = document.getElementById('order-summary');
+
+        // Effacez le contenu actuel de orderSummaryDiv
+        orderSummaryDiv.innerHTML = '';
+
+
+
+
+
+// Effacez le contenu actuel de orderSummaryDiv
+orderSummaryDiv.innerHTML = '';
+
+
+
+for (const child of cartElement.children) {
+    // Ajoutez une condition pour sélectionner uniquement les éléments <h3>
+    const nodeName = child.nodeName ? child.nodeName.toLowerCase() : '';
+
+    if (nodeName === 'h3') {
+        const clonedChild = child.cloneNode(true);
+        console.log('Cloned Child:', clonedChild);
+        orderSummaryDiv.appendChild(clonedChild);
+	 }
+    }
+// Clonez les nœuds enfants de cartElement et ajoutez-les à orderSummaryDiv
+for (const child of cartElement.querySelectorAll('.cart-item')) {
+    // Clonez uniquement les éléments <h3>, <p>, et <h4> à l'intérieur de .cart-item
+   
+    const pElement = child.querySelector('p');
+ 
+	
+	
+
+    if (pElement) {
+        // Clonez le <p> mais sans les boutons
+        const clonedP = pElement.cloneNode(true);
+        const buttons = clonedP.querySelectorAll('button');
+        buttons.forEach(button => button.remove());
+        console.log('Cloned P:', clonedP);
+        orderSummaryDiv.appendChild(clonedP);
+    }
+
+    
+}
+
+
+
+// Ajoutez également l'élément <h4> avec le prix total
+const totalPriceElement = cartElement.querySelector('.cart-item h4');
+if (totalPriceElement) {
+    cloneAndAppendToOrderSummary(totalPriceElement, orderSummaryDiv);
+}
+
+	
+				
+		
+		
+		// Rendez orderSummaryDiv invisible
+orderSummaryDiv.style.display = 'none';
+		
+
+        // Affichez une alerte de succès ou utilisez SweetAlert2
+        Swal.fire({
+            icon: 'success',
+            title: 'Confirmation !',
+			html: orderSummaryDiv.innerHTML,
+			showCancelButton: true,
+			cancelButtonColor: '#FFA500',
+			showConfirmButton: true,
+
+        });
+
+        console.log('Order Summary Content:', orderSummaryDiv.innerHTML);
+    };
+	});
+
     </script>
 </body>
 </html>
+
+
+

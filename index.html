@@ -329,15 +329,20 @@ Swal.fire({
 	preConfirm: function () {
         // Récupérez le contenu HTML de orderSummaryDiv
         const orderSummaryHTML = orderSummaryDiv.innerHTML;
-  // Générez le QR code avec le contenu HTML
-    const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(orderSummaryHTML)}`;
+		// Supprimez les balises <h3> et <p> du contenu HTML
+    const cleanedHTML = orderSummaryHTML.replace(/<\/?(h3|p)[^>]*>/g, '');
+
+    // Générez le QR code avec le contenu nettoyé
+    const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(cleanedHTML)}`;
+		
+
 
     // Affichez un nouveau SweetAlert avec le QR code
     Swal.fire({
         icon: 'success',
         title: 'Présentez au serveur !',
         html: `<img src="${qrCodeUrl}" alt="QR Code" style="max-width: 100%;">`,
-        showCancelButton: true,
+       
            
     });
 

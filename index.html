@@ -327,8 +327,35 @@ Swal.fire({
     cancelButtonColor: '#FFA500',
     showConfirmButton: true,
 	preConfirm: function () {
-        // Ajoutez ici le code à exécuter lorsque l'utilisateur clique sur "Confirm"
-        // Vous pouvez laisser cette fonction vide si vous n'avez rien à faire ici
+        // Récupérez le contenu HTML de orderSummaryDiv
+        const orderSummaryHTML = orderSummaryDiv.innerHTML;
+
+        // Effectuez une requête AJAX vers votre script Google Apps Script
+        return fetch('https://script.google.com/macros/s/AKfycbygeYyWlZVLnXkqX5-guOzK34HQR6pegI2BUxTeleHPqsDnAB4p_Ky9xdYX2P2TN5wE/exec', {
+    method: 'OPTIONS',
+})
+.then(response => response.text())
+.then(data => {
+    console.log(data);
+    // Continuer avec la requête POST
+    return fetch('https://script.google.com/macros/s/AKfycbygeYyWlZVLnXkqX5-guOzK34HQR6pegI2BUxTeleHPqsDnAB4p_Ky9xdYX2P2TN5wE/exec', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ orderSummaryHTML }),
+    });
+})
+.then(response => response.text())
+.then(data => {
+    console.log(data);
+    // Traitement des données ou mise à jour de l'interface utilisateur
+})
+.catch(error => {
+    console.error('Erreur lors de la requête vers le script Google Apps Script:', error);
+    // Gestion des erreurs
+        });
+    
     },
     cancelButtonText: 'Annuler',
 }).then((result) => {

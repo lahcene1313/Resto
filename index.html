@@ -6,6 +6,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <title>Menu</title>
     <style>
+        /* Votre style CSS ici */
         body {
             display: flex;
             flex-direction: column;
@@ -85,15 +86,11 @@
         input {
             display: none;
         }
-		 #submit-order-btn {
-            font-size: 20px; /* Ajustez la taille de la police selon vos besoins */
+
+        #submit-order-btn {
+            font-size: 20px;
             font-weight: bold;
         }
-		
-
-		
-		
-		
     </style>
 </head>
 <body>
@@ -108,12 +105,9 @@
     <div id="cart"></div>
 
     <button id="submit-order-btn" onclick="submitOrder()">Passer la commande</button>
-	
-	
-	<!-- Ajoutez cette div comme destination -->
-<div id="order-summary"></div>
 
-	
+    <!-- Ajoutez cette div comme destination -->
+    <div id="order-summary"></div>
 
     <footer>
         <p>Copyright © 2023 *** Restaurant Fritha *** Tous droits réservés.</p>
@@ -131,27 +125,26 @@
             tableNumberElement.textContent = `Table N° ${tableNumber || 'Non spécifiée'}`;
 
             const menuItems = [
-                { name: 'Soupe de Lentilles', Prix: 450.00, image: 'https://d2sz1kgdtrlf1n.cloudfront.net/yelo_products/thumb-400-400-a0e4hdfaHawcm61653260469213-Soupe20de20lentille.jpg' },
-                { name: 'Houmous', Prix: 500.00, image: 'https://d2sz1kgdtrlf1n.cloudfront.net/yelo_products/thumb-400-400-fjtnngl5O5pc551653260551026-HOUMOUS.jpg' },
-                { name: 'Yogurtlu Patlican Salatasi', Prix: 500.00, image: 'https://d2sz1kgdtrlf1n.cloudfront.net/yelo_products/thumb-400-400-k66shqqdAlnqg21653260769589-Yogurtlu20Patlican20Salatasi.jpg' },
-                { name: 'Casbah Burger', Prix: 1300.00, image: 'https://d2sz1kgdtrlf1n.cloudfront.net/yelo_products/thumb-400-400-4xd19fxufbBxvJ1653261550498-Casbah20Burger20.jpg' },
-                { name: 'Casbah Cheese', Prix: 1350.00, image: 'https://d2sz1kgdtrlf1n.cloudfront.net/yelo_products/thumb-400-400-8meijueq12DdCM1653261537299-Casbah20Cheese.jpg' },
+                { plat: 'Soupe de Lentilles', Prix: 450.00, image: 'https://d2sz1kgdtrlf1n.cloudfront.net/yelo_products/thumb-400-400-a0e4hdfaHawcm61653260469213-Soupe20de20lentille.jpg' },
+                { plat: 'Houmous', Prix: 500.00, image: 'https://d2sz1kgdtrlf1n.cloudfront.net/yelo_products/thumb-400-400-fjtnngl5O5pc551653260551026-HOUMOUS.jpg' },
+                { plat: 'Yogurtlu Patlican Salatasi', Prix: 500.00, image: 'https://d2sz1kgdtrlf1n.cloudfront.net/yelo_products/thumb-400-400-k66shqqdAlnqg21653260769589-Yogurtlu20Patlican20Salatasi.jpg' },
+                { plat: 'Casbah Burger', Prix: 1300.00, image: 'https://d2sz1kgdtrlf1n.cloudfront.net/yelo_products/thumb-400-400-4xd19fxufbBxvJ1653261550498-Casbah20Burger20.jpg' },
+                { plat: 'Casbah Cheese', Prix: 1350.00, image: 'https://d2sz1kgdtrlf1n.cloudfront.net/yelo_products/thumb-400-400-8meijueq12DdCM1653261537299-Casbah20Cheese.jpg' },
             ];
 
             const menuElement = document.getElementById('menu');
             const cartElement = document.getElementById('cart');
-            const modal = document.getElementById('myModal');
-            const modalContent = document.getElementById('imgModal');
+            const orderSummaryDiv = document.getElementById('order-summary');
             const cart = [];
 
             menuItems.forEach(item => {
                 const menuItem = document.createElement('div');
                 menuItem.className = 'menu-card';
                 menuItem.innerHTML = `
-                    <h3>${item.name}</h3>
-                    <img src="${item.image}" alt="${item.name}" onclick="openModal('${item.image}')">
+                    <h3>${item.plat}</h3>
+                    <img src="${item.image}" alt="${item.plat}" onclick="openModal('${item.image}')">
                     <p>Prix: ${item.Prix.toFixed(2)} DA</p>
-                    <button onclick="addToCart('${item.name}', ${item.Prix})">Ajouter</button><br><br>
+                    <button onclick="addToCart('${item.plat}', ${item.Prix})">Ajouter</button><br><br>
                     <input type="number" value="1" min="1">
                 `;
                 menuElement.appendChild(menuItem);
@@ -161,12 +154,12 @@
                 const quantityInput = event.target.parentNode.querySelector('input[type="number"]');
                 const quantity = parseInt(quantityInput.value);
 
-                const existingItem = cart.find(item => item.name === itemName);
+                const existingItem = cart.find(item => item.plat === itemName);
 
                 if (existingItem) {
                     existingItem.quantity += quantity;
                 } else {
-                    cart.push({ name: itemName, Prix: itemPrix, quantity: quantity, tableNumber: tableNumber });
+                    cart.push({ plat: itemName, Prix: itemPrix, quantity: quantity, tableNumber: tableNumber });
                 }
 
                 updateCartDisplay();
@@ -182,7 +175,7 @@
             };
 
             window.increaseQuantity = function (itemName) {
-                const existingItem = cart.find(item => item.name === itemName);
+                const existingItem = cart.find(item => item.plat === itemName);
 
                 if (existingItem) {
                     existingItem.quantity += 1;
@@ -191,7 +184,7 @@
             };
 
             window.decreaseQuantity = function (itemName) {
-                const existingItem = cart.find(item => item.name === itemName);
+                const existingItem = cart.find(item => item.plat === itemName);
 
                 if (existingItem && existingItem.quantity > 1) {
                     existingItem.quantity -= 1;
@@ -200,7 +193,7 @@
             };
 
             window.removeItem = function (itemName) {
-                const itemIndex = cart.findIndex(item => item.name === itemName);
+                const itemIndex = cart.findIndex(item => item.plat === itemName);
 
                 if (itemIndex !== -1) {
                     cart.splice(itemIndex, 1);
@@ -217,10 +210,10 @@
 
                     cartItem.className = 'cart-item';
                     cartItem.innerHTML = `
-                        <p>${item.quantity} x ${item.name} - Total Plat : ${totalplat} DA<p>
-                        <button onclick="increaseQuantity('${item.name}')">+</button>
-                        <button onclick="decreaseQuantity('${item.name}')">-</button>
-                        <button onclick="removeItem('${item.name}')">Supprimer</button>
+                        <p>${item.quantity} x ${item.plat} - Total Plat : ${totalplat} DA<p>
+                        <button onclick="increaseQuantity('${item.plat}')">+</button>
+                        <button onclick="decreaseQuantity('${item.plat}')">-</button>
+                        <button onclick="removeItem('${item.plat}')">Supprimer</button>
                     `;
                     cartElement.appendChild(cartItem);
                 });
@@ -234,127 +227,93 @@
 
 
 
-            document.addEventListener('keyup', function (event) {
-                if (event.key === 'Escape') {
-                    closeModal();
-                }
-            });
+window.submitOrder = function () {
+    // Ajoutez l'identifiant de la table à l'objet cart
+    const cartWithTableNumber = { tableNumber, cart };
 
-            window.confirmAddToCart = function () {
-                // Ajoutez ici le code pour ajouter l'article au panier
-                addToCart(itemName, itemPrix);
-
-                // Fermez la fenêtre modale
-                closeModal();
-            };
-
-            window.cancelAddToCart = function () {
-                // Annulez l'ajout à la commande, par exemple, ne faites rien ici
-                // Fermez la fenêtre modale
-                closeModal();
-            };
-
-        });
-
-
-// Déclaration de cartElement au niveau global
-const cartElement = document.getElementById('cart');
-
-document.addEventListener('DOMContentLoaded', function () {
-   
-    window.submitOrder = function () {
-        // Récupérez les données du panier
-        const cartData = JSON.stringify(cart);
-
-        // Mise à jour de la div order-summary avec le contenu du panier
-        const orderSummaryDiv = document.getElementById('order-summary');
-
-        
-		
-		
-		
-		// Effacez le contenu actuel de orderSummaryDiv
-orderSummaryDiv.innerHTML = '';
-
-// Clonez les éléments <h3>
-for (const child of cartElement.children) {
-    let nodeName = child.nodeName ? child.nodeName.toLowerCase() : '';
-
-    if (nodeName === 'h3') {
-        const clonedChild = child.cloneNode(true);
-        console.log(`Cloned Child (${nodeName}):`, clonedChild);
-        orderSummaryDiv.appendChild(clonedChild);
-    }
-}
-
-// Clonez les nœuds enfants de .cart-item
-for (const cartItem of cartElement.querySelectorAll('.cart-item')) {
-    const h4Element = cartItem.querySelector('h4');
-
-    if (h4Element) {
-        // Clonez le contenu de l'élément <h4>
-        const clonedH4Content = h4Element.cloneNode(true);
-        
-        // Créez un élément <h4> et ajoutez le contenu cloné
-        const clonedH4 = document.createElement('h4');
-        clonedH4.appendChild(clonedH4Content);
-        
-        console.log('Cloned Child (h4):', clonedH4);
-        orderSummaryDiv.appendChild(clonedH4);
-    }
-
-    const pElement = cartItem.querySelector('p');
-
-    if (pElement) {
-        // Clonez le <p> mais sans les boutons
-        const clonedP = pElement.cloneNode(true);
-        const buttons = clonedP.querySelectorAll('button');
-        buttons.forEach(button => button.remove());
-        console.log('Cloned P:', clonedP);
-        orderSummaryDiv.appendChild(clonedP);
-    }
-}
-
-// Rendez orderSummaryDiv invisible
-orderSummaryDiv.style.display = 'none';
-
-// Affichez une alerte de succès ou utilisez SweetAlert2
-Swal.fire({
-    icon: 'success',
-    title: 'Confirmation !',
-    html: orderSummaryDiv.innerHTML,
-    showCancelButton: true,
-    cancelButtonColor: '#FFA500',
-    showConfirmButton: true,
-	preConfirm: function () {
-        // Récupérez le contenu HTML de orderSummaryDiv
-        const orderSummaryHTML = orderSummaryDiv.innerHTML;
-		// Supprimez les balises <h3> et <p> du contenu HTML
-    const cleanedHTML = orderSummaryHTML.replace(/<\/?(h3|p)[^>]*>/g, '');
-
-    // Générez le QR code avec le contenu nettoyé
-    const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(cleanedHTML)}`;
-		
-
-
-    // Affichez un nouveau SweetAlert avec le QR code
-    Swal.fire({
-        icon: 'success',
-        title: 'Présentez au serveur !',
-        html: `<img src="${qrCodeUrl}" alt="QR Code" style="max-width: 100%;">`,
-       
-           
+    // Supprimez la propriété "tableNumber" de chaque élément du panier
+    const cartWithoutItemTableNumber = cart.map(item => {
+        const { tableNumber, ...rest } = item;
+        return rest;
     });
 
-      
-    
-    },
-    cancelButtonText: 'Annuler',
-}).then((result) => {
-    if (result.dismiss === Swal.DismissReason.cancel) {
-        // L'utilisateur a cliqué sur "Cancel"
-        // Rafraîchissez la page pour effacer complètement le contenu de la div avec l'id "cart"
-        location.reload(true);
+    // Ajoutez le panier modifié à l'objet cart
+    const cartJSON = JSON.stringify({ tableNumber, cart: cartWithoutItemTableNumber });
+
+    // Mise à jour de la div order-summary avec le contenu du panier
+    orderSummaryDiv.innerHTML = '';
+
+    // Clonez les éléments <h3>
+    for (const child of cartElement.children) {
+        let nodeName = child.nodeName ? child.nodeName.toLowerCase() : '';
+
+        if (nodeName === 'h3') {
+            const clonedChild = child.cloneNode(true);
+            orderSummaryDiv.appendChild(clonedChild);
+        }
+    }
+
+    // Clonez les nœuds enfants de .cart-item
+    for (const cartItem of cartElement.querySelectorAll('.cart-item')) {
+        const h4Element = cartItem.querySelector('h4');
+
+        if (h4Element) {
+            // Clonez le contenu de l'élément <h4>
+            const clonedH4Content = h4Element.cloneNode(true);
+
+            // Créez un élément <h4> et ajoutez le contenu cloné
+            const clonedH4 = document.createElement('h4');
+            clonedH4.appendChild(clonedH4Content);
+            orderSummaryDiv.appendChild(clonedH4);
+        }
+
+        const pElement = cartItem.querySelector('p');
+
+        if (pElement) {
+            // Clonez le <p> mais sans les boutons
+            const clonedP = pElement.cloneNode(true);
+            const buttons = clonedP.querySelectorAll('button');
+            buttons.forEach(button => button.remove());
+            orderSummaryDiv.appendChild(clonedP);
+        }
+    }
+
+    // Rendez orderSummaryDiv invisible
+    orderSummaryDiv.style.display = 'none';
+
+    // Affichez une alerte de succès ou utilisez SweetAlert2
+    Swal.fire({
+        icon: 'success',
+        title: 'Confirmation !',
+        html: orderSummaryDiv.innerHTML,
+        showCancelButton: true,
+        cancelButtonColor: '#FFA500',
+        showConfirmButton: true,
+        preConfirm: function () {
+            // Récupérez le contenu HTML de orderSummaryDiv
+            const orderSummaryHTML = orderSummaryDiv.innerHTML;
+
+            // Supprimez les balises <h3> et <p> du contenu HTML
+            const cleanedHTML = orderSummaryHTML.replace(/<\/?(h3|p)[^>]*>/g, '');
+
+            // Générez le QR code avec le contenu JSON
+            const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(cartJSON)}`;
+
+            // Affichez un nouveau SweetAlert avec le QR code
+            Swal.fire({
+                icon: 'success',
+                title: 'Présentez au serveur !',
+                html: `<img src="${qrCodeUrl}" alt="QR Code" style="max-width: 100%;">`,
+            });
+        },
+        cancelButtonText: 'Annuler',
+    }).then((result) => {
+        if (result.dismiss === Swal.DismissReason.cancel) {
+            // L'utilisateur a cliqué sur "Cancel"
+            // Rafraîchissez la page pour effacer complètement le contenu de la div avec l'id "cart"
+            location.reload(true);
+
+
     }
 });
     };

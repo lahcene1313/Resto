@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function () {
             title: 'Plat ajouté à votre commande avec succès !',
             showConfirmButton: true,
             // Fermer automatiquement après 3 secondes
-            timer: 3000,
+            timer: 2500,
         });
     };
 

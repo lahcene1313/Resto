@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const menuItems = [
         { category: 'Nos Pizza', plat: 'Pizza au feu de bois', description: 'Délicieuse pizza cuite au feu de bois.', Prix: 1300.00, image: 'https://rahihakma.dz/wp-content/uploads/2023/05/IMG_8364-e1683480335307.webp' },
 	{ category: 'Nos Pizza', plat: 'Pizza végétarienne', description: 'Sauce tomate, Fromage, Poivron, Tomate Fraiche, Champignon .', Prix: 700.00, image: 'https://maxi.cdnartwhere.eu/wp-content/uploads/recipe/2016-01/pizza-vegetarienne.jpg' },    
-	{ category: 'Soupe', plat: 'Soupe de Lentilles', description: 'Délicieuse soupe.', Prix: 350.00, image: 'https://d2sz1kgdtrlf1n.cloudfront.net/yelo_products/thumb-400-400-a0e4hdfaHawcm61653260469213-Soupe20de20lentille.jpg' },
+	{ category: 'Nos Soupe', plat: 'Soupe de Lentilles', description: 'Délicieuse soupe.', Prix: 350.00, image: 'https://d2sz1kgdtrlf1n.cloudfront.net/yelo_products/thumb-400-400-a0e4hdfaHawcm61653260469213-Soupe20de20lentille.jpg' },
         { category: 'Nos Entrées Froides', plat: 'Houmous', description: 'Entrée incontournable.', Prix: 500.00, image: 'https://d2sz1kgdtrlf1n.cloudfront.net/yelo_products/thumb-400-400-fjtnngl5O5pc551653260551026-HOUMOUS.jpg' },
         { category: 'Nos Entrées Froides', plat: 'Yogurtlu Salatasi', description: 'Fromage naturel fait maison.', Prix: 550.00, image: 'https://d2sz1kgdtrlf1n.cloudfront.net/yelo_products/thumb-400-400-k66shqqdAlnqg21653260769589-Yogurtlu20Patlican20Salatasi.jpg' },
 	{ category: 'Nos Grillades', plat: 'Brochette de poulet piquante', description: 'poulet Bio Frais du jour.', Prix: 1200.00, image: 'https://hichamcook.dz/storage/2022/10/brochette-poulet-piquante.png' },        
@@ -67,10 +67,10 @@ document.addEventListener('DOMContentLoaded', function () {
         // Utilisez SweetAlert2 pour afficher le message personnalisé
         Swal.fire({
             icon: 'success',
-            title: 'Plat ajouté à votre commande avec succès !',
+            title: 'Ajouté avec succès !',
             showConfirmButton: true,
             // Fermer automatiquement après 3 secondes
-            timer: 2500,
+            timer: 2000,
         });
     };
 

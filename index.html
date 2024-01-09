@@ -29,11 +29,12 @@
             text-align: center;
         }
 
-        #menu {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-        }
+#menu {
+    max-width: 600px; /* Ajustez cette valeur en fonction de la largeur souhaitée */
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+}
 
         .menu-card {
             border: 1px solid #ccc;
@@ -46,7 +47,7 @@
 
         .menu-card img {
             width: 100%;
-            height: 400px;
+            height: 300px;
             object-fit: cover;
             margin-bottom: 10px;
             cursor: pointer;
@@ -127,11 +128,22 @@
         color: #fff;
 		border-radius: 10%;
      }
+	 
+	 .category {
+    margin-bottom: 20px;
+}
+
+.category h2 {
+    border-bottom: 2px solid #333;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+	text-align: center;
+}
     </style>
 </head>
 <body>
     <header>
-        <h1>Restaurant Resto</h1>
+        <h1>Restaurant Fritha</h1>
     </header>
 <center>
     <h3> Bienvenue à la <span id="table-number"></span></h3>
@@ -147,7 +159,7 @@
     <div id="order-summary"></div>
 
     <footer>
-        <p>Copyright © 2024 *** Restaurant Resto *** Tous droits réservés.</p>
+        <p>Copyright © 2024 *** Restaurant Fritha *** Tous droits réservés.</p>
     </footer>
 
     

@@ -167,37 +167,42 @@ document.addEventListener('DOMContentLoaded', function () {
         // Rendez orderSummaryDiv invisible
         orderSummaryDiv.style.display = 'none';
 
+        // Rendez orderSummaryDiv invisible
+        orderSummaryDiv.style.display = 'none';
+
         // Affichez une alerte de succès ou utilisez SweetAlert2
+		
+		const totalPrix = cart.reduce((total, item) => total + item.Prix * item.quantity, 0).toFixed(2);
         Swal.fire({
-            icon: 'success',
-            title: 'Confirmation !',
-            html: orderSummaryDiv.innerHTML,
-            showCancelButton: true,
-            cancelButtonColor: '#FFA500',
-            showConfirmButton: true,
-            preConfirm: function () {
-                // Récupérez le contenu HTML de orderSummaryDiv
-                const orderSummaryHTML = orderSummaryDiv.innerHTML;
+        icon: 'success',
+        title: 'Confirmation !',
+        html: orderSummaryDiv.innerHTML + `<strong><p>Total de la commande : ${totalPrix} DA</p></strong>`,
+        showCancelButton: true,
+        cancelButtonColor: '#FFA500',
+        showConfirmButton: true,
+        preConfirm: function () {
+            // Récupérez le contenu HTML de orderSummaryDiv
+            const orderSummaryHTML = orderSummaryDiv.innerHTML;
 
-                // Supprimez les balises <h3> et <p> du contenu HTML
-                const cleanedHTML = orderSummaryHTML.replace(/<\/?(h3|p)[^>]*>/g, '');
+            // Supprimez les balises <h3> et <p> du contenu HTML
+            const cleanedHTML = orderSummaryHTML.replace(/<\/?(h3|p)[^>]*>/g, '');
 
-                // Générez le QR code avec le contenu JSON
-                const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(cartJSON)}`;
+            // Générez le QR code avec le contenu JSON
+            const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(cartJSON)}`;
 
-                // Affichez un nouveau SweetAlert avec le QR code
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Je suis votre commande présentez moi au serveur !',
-                    html: `<img src="${qrCodeUrl}" alt="QR Code" style="max-width: 100%;">`,
-                });
-            },
-            cancelButtonText: 'Annuler',
-        }).then((result) => {
-            if (result.dismiss === Swal.DismissReason.cancel) {
-                // L'utilisateur a cliqué sur "Cancel"
-                // Rafraîchissez la page pour effacer complètement le contenu de la div avec l'id "cart"
-                location.reload(true);
+            // Affichez un nouveau SweetAlert avec le QR code
+            Swal.fire({
+                icon: 'success',
+                title: 'Je suis votre commande présentez moi au serveur !',
+                html: `<img src="${qrCodeUrl}" alt="QR Code" style="max-width: 100%;">`,
+            });
+        },
+        cancelButtonText: 'Annuler',
+    }).then((result) => {
+        if (result.dismiss === Swal.DismissReason.cancel) {
+            // L'utilisateur a cliqué sur "Cancel"
+            // Rafraîchissez la page pour effacer complètement le contenu de la div avec l'id "cart"
+            location.reload(true);
             }
         });
     };

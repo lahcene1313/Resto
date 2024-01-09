@@ -10,11 +10,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const menuItems = [
         { category: 'Pizza', plat: 'Pizza au feu de bois', Prix: 1300.00, image: 'https://rahihakma.dz/wp-content/uploads/2023/05/IMG_8364-e1683480335307.webp' },
-        { category: 'Soupe', plat: 'Soupe de Lentilles', Prix: 350.00, image: 'https://d2sz1kgdtrlf1n.cloudfront.net/yelo_products/thumb-400-400-a0e4hdfaHawcm61653260469213-Soupe20de20lentille.jpg' },
+	{ category: 'Pizza', plat: 'Pizza végétarienne', Prix: 700.00, image: 'https://maxi.cdnartwhere.eu/wp-content/uploads/recipe/2016-01/pizza-vegetarienne.jpg' },    
+	{ category: 'Soupe', plat: 'Soupe de Lentilles', Prix: 350.00, image: 'https://d2sz1kgdtrlf1n.cloudfront.net/yelo_products/thumb-400-400-a0e4hdfaHawcm61653260469213-Soupe20de20lentille.jpg' },
         { category: 'Entrées Froides', plat: 'Houmous', Prix: 500.00, image: 'https://d2sz1kgdtrlf1n.cloudfront.net/yelo_products/thumb-400-400-fjtnngl5O5pc551653260551026-HOUMOUS.jpg' },
         { category: 'Entrées Froides', plat: 'Yogurtlu Salatasi', Prix: 550.00, image: 'https://d2sz1kgdtrlf1n.cloudfront.net/yelo_products/thumb-400-400-k66shqqdAlnqg21653260769589-Yogurtlu20Patlican20Salatasi.jpg' },
-		{ category: 'Nos Burgers', plat: 'Cheese', Prix: 1000.00, image: 'https://d2sz1kgdtrlf1n.cloudfront.net/yelo_products/thumb-400-400-8meijueq12DdCM1653261537299-Casbah20Cheese.jpg' },
+	{ category: 'Nos Burgers', plat: 'Cheese', Prix: 1000.00, image: 'https://d2sz1kgdtrlf1n.cloudfront.net/yelo_products/thumb-400-400-8meijueq12DdCM1653261537299-Casbah20Cheese.jpg' },
         { category: 'Nos Desserts', plat: 'Salade de fruits', Prix: 1250.00, image: 'https://img.cuisineaz.com/660x660/2013/12/20/i26162-salade-de-fruits-d-ete-facile.jpg' },
+	{ category: 'Pizza', plat: 'Pizza Marguerite', Prix: 600.00, image: 'https://www.delicieux.fr/wp-content/uploads/2020/08/Pizza-margherita-classique.jpg' },    
         
     ];
 

@@ -13,8 +13,9 @@ document.addEventListener('DOMContentLoaded', function () {
         { category: 'Soupe', plat: 'Soupe de Lentilles', Prix: 350.00, image: 'https://d2sz1kgdtrlf1n.cloudfront.net/yelo_products/thumb-400-400-a0e4hdfaHawcm61653260469213-Soupe20de20lentille.jpg' },
         { category: 'Entrées Froides', plat: 'Houmous', Prix: 500.00, image: 'https://d2sz1kgdtrlf1n.cloudfront.net/yelo_products/thumb-400-400-fjtnngl5O5pc551653260551026-HOUMOUS.jpg' },
         { category: 'Entrées Froides', plat: 'Yogurtlu Salatasi', Prix: 550.00, image: 'https://d2sz1kgdtrlf1n.cloudfront.net/yelo_products/thumb-400-400-k66shqqdAlnqg21653260769589-Yogurtlu20Patlican20Salatasi.jpg' },
+		{ category: 'Nos Burgers', plat: 'Cheese', Prix: 1000.00, image: 'https://d2sz1kgdtrlf1n.cloudfront.net/yelo_products/thumb-400-400-8meijueq12DdCM1653261537299-Casbah20Cheese.jpg' },
         { category: 'Nos Desserts', plat: 'Salade de fruits', Prix: 1250.00, image: 'https://img.cuisineaz.com/660x660/2013/12/20/i26162-salade-de-fruits-d-ete-facile.jpg' },
-        { category: 'Nos Burgers', plat: 'Cheese', Prix: 1000.00, image: 'https://d2sz1kgdtrlf1n.cloudfront.net/yelo_products/thumb-400-400-8meijueq12DdCM1653261537299-Casbah20Cheese.jpg' },
+        
     ];
 
     const menuElement = document.getElementById('menu');
